@@ -1,0 +1,44 @@
+<body>
+<!--要有ｅntype才可以上传文件-->
+<form action="/resign" method="post" enctype="multipart/form-data">
+    <table>
+        <tr>
+            <td>用户名</td>
+            <td><input type="text" name="username"></td>
+        </tr>
+        <tr>
+            <td>密码</td>
+            <td><input type="password" name="password"></td>
+        </tr>
+        <tr>
+            <td>头像</td>
+            <td><input type="file" name="avatar"></td>
+        </tr>
+        <tr>
+            <td>城市</td>
+            <td>
+                <select name="city" id="">
+                <option value="beijing">北京</option>
+                <option value="shanghai">上海</option>
+                <option value="guangzhou">广州</option>
+                <option value="shenzhen">深圳</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <!--如果有错误信息，会显示在这里-->
+            <td>{{result}}</td>
+        </tr>
+        <tr>
+            <td>
+                <input type="submit" value="注册">
+            </td>
+            <td>
+                <input type="reset" value="重置">
+            </td>
+        </tr>
+        
+    </table>
+</form>
+
+</body>

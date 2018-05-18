@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{margin:0px;padding:0px;margin:auto;}
+        ul{list-style-type:none;}
+        table tr td{
+            border:1px solid rgba(90, 185, 235, 0.92);
+            border-collapse:collapse;
+        }
+        * td{
+            text-align: left;
+        }
+        * td.mypic{
+            width:20%;
+            text-align:center;
+        }
+        .name{text-align:center;}
+        .comment{text-align:right;}
+        img{width:128px;height:128px;}
+    </style>
+</head>
+<body>
+    <ul style="width: 80%;margin: auto">
+        {% for c in posts %}
+        <li>
+            <table width="100%">
+                <tr>
+                    <td rowspan="3" class="mypic">
+                        {% if c['avator']%}
+                       <img src="static/images/{{c['avator']}}" alt="">
+                        {% else%}
+                        <img src="static/images/default_avatar.png" alt="">
+                        {%end%}
+                    </td>
+                    <td>{{c['title']}}</td>
+                </tr>
+                <tr>
+                    <td>{{c['tags']}}</td>
+                </tr>
+                <tr>
+                    <td>{{c['content']}}</td>
+                </tr>
+                <tr>
+                    <td class="name">{{c['author']}}</td>
+                    <td class="comment" align="right">comment:{{c['comment']}}</td>
+
+                </tr>
+            </table>
+        </li>
+        {%end%}
+
+    </ul>
+</body>
+</html>
