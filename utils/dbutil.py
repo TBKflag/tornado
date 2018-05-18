@@ -51,3 +51,29 @@ class DBUtile():
         else:
             raise Exception('参数不完整')
 
+    def has_name(self,username):
+        sql='select count(*) from tb_user WHERE user_name=%s'
+        params=(username,)
+        self.cursor.execute(sql,params)
+        result=self.cursor.fetchone()
+        if result[0]:
+            return True
+        else:
+            return False
+
+    def get_avatar(self,username):
+        sql='select user_avatar from tb_user WHERE user_name=%s'
+        params=(username,)
+        self.cursor.execute(sql,params)
+
+        result=self.cursor.fetchone()
+        print(result)
+        # 先判断有没有ｒｅｓｕｌｔ，如果没有的话，会返回Ｎone.再判断是否有ｒｅｓｕｌｔ［０］
+        if result:
+            if result[0]:
+                return result[0]
+            else:
+                return 'default_avatar.png'
+        else:
+            # 登录时，输入了一个不存在的用户名
+            return 'default_avatar.png'

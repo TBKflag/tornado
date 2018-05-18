@@ -1,5 +1,35 @@
 {%extends base.html%}
 {%block title%}注册{%end%}
+{%block head%}
+    <script src="static/js/jquery-3.2.1.js"></script>
+    <script>
+        $(function(){
+            alert("hi");
+            var input_username=$("#inputusername");
+            var span_info=$("#spaninfo")
+            input_username.blur(function () {
+                $.ajax({
+                    url:"/check",
+                    data:{"type":"regist","username":input_username.val()},
+                    type:"post",
+                    datatype:"json",
+                    async:true,
+                    success:function (data) {
+                        console.log("服务器响应的内容"+data);
+                        if(data["msg"]=='fail'){
+                            span_info.text('该用户名已被使用');
+                        }else{
+                            span_info.text('该用户名可以正常使用');
+                        }
+                        },
+                    error:function (err) {
+                        console.log("发生错误"+err);
+                    }
+                });
+            })
+        })
+    </script>
+{%end%}
 {%block body%}
 {%module resignmodule()%}
 {%end%}

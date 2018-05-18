@@ -12,17 +12,22 @@ import pymysql
 from day.utils.dbutil import DBUtile
 from day.utils.mdutil import *
 from day5.app.myapp import MyApplication
-from day5.app.myhandler import IndexHandler, LoginHandler, Blog, Resign
+from day5.app.myhandler import IndexHandler, LoginHandler, Blog, Resign, Checkhandler, Headpic
 from day5.app.mymodule import LigubModule, BlockModule, ResignModule
 from day5.app.mysettings import setting
 
 # define('duankou',type=int,default=8001)
 # parse_config_file('../config/config')
 
+
+
+
 app=MyApplication([('/',IndexHandler),
                  ('/login/(a-z0-9A-Z)*',LoginHandler),
                  ('/blog',Blog),
-                 ('/resign',Resign)],
+                 ('/resign',Resign),
+                 ('/check',Checkhandler),
+                 ],
                 tp='./mytemplate',
                 sp='./mystatics',
                 um={'loginmodule':LigubModule,'blogmodule':BlockModule,'resignmodule':ResignModule})

@@ -97,3 +97,22 @@ class Resign(RequestHandler):
             self.redirect('/resign?msg=empty')
 
 
+class Checkhandler(RequestHandler):
+    def get(self, *args, **kwargs):
+        pass
+
+    def post(self, *args, **kwargs):
+        type=self.get_body_argument("type")
+        if type=='regist':
+            username = self.get_body_argument('username')
+            print('AJAX传递的参数',username)
+            if self.application.dbutil.has_name(username):
+                resp={'msg':"fail"}
+            else:
+                resp={'msg':'ok'}
+            self.write(resp)
+        if type=='login':
+            username=self.get_body_argument('username')
+            avatar=self.application.dbutil.get_avatar(username)
+            resp={'msg':avatar}
+            self.write(resp)
