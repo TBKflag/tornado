@@ -5,30 +5,35 @@ import time
 from tornado.web import RequestHandler
 
 from day5.utils.mdutil import mymd5
+from day5.utils.mysession import Session
 
 
 class Blog(RequestHandler):
     def get(self, *args, **kwargs):
-        self.render('blog.html',a=100,b=150,rand=self.myfun,posts=[
-            {"title":'1',
-             'tags':'',
-             'author':'jia',
-             'content':'第一篇博客',
-             "avator":'a.jpg',
-             'comment':5},
-            {"title": '2',
-             'tags': '星座',
-             'author': 'jia',
-             'avator':None,
-             'content': '第一篇博客',
-             'comment': 0},
-            {"title": '3',
-             'tags': 'sex',
-             'author': 'jia',
-             "avator": 'a.jpg',
-             'content': '第一篇博客',
-             'comment': 1},
-        ])
+        session=Session(self)
+        if session['islogin']:
+            self.render('blog.html',a=100,b=150,rand=self.myfun,posts=[
+                {"title":'1',
+                 'tags':'',
+                 'author':'jia',
+                 'content':'第一篇博客',
+                 "avator":'a.jpg',
+                 'comment':5},
+                {"title": '2',
+                 'tags': '星座',
+                 'author': 'jia',
+                 'avator':None,
+                 'content': '第一篇博客',
+                 'comment': 0},
+                {"title": '3',
+                 'tags': 'sex',
+                 'author': 'jia',
+                 "avator": 'a.jpg',
+                 'content': '第一篇博客',
+                 'comment': 1},
+            ])
+        else:
+            self.redirect('/')
     # 自定义函数ｍｙｆｕｎ
     def myfun(self, a, b):
         # 生成从ａ到ｂ之间随机一个数
@@ -43,8 +48,11 @@ class IndexHandler(RequestHandler):
         else:
             self.render('login.html', msgage=None)
 
+
 class LoginHandler(RequestHandler):
+
     def post(self, *args, **kwargs):
+        # 设置ｃｏｏｋｉｅ
         username=self.get_argument('username')
         password=self.get_argument('password')
         print(username,password)
@@ -52,14 +60,21 @@ class LoginHandler(RequestHandler):
         # 建立连接．
         password=mymd5(password)
         # dbutil=DBUtile()
+        session=Session(self)
+
         if self.application.dbutil.login(username,password):
+            session['islogin']=True
             self.redirect('/blog')
         else:
+            session['islogin']=False
             self.redirect('/?msg=fail')
 
 
 class Resign(RequestHandler):
     def get(self,*args,**kwargs):
+        # 获取ｃｏｏｋｉｅ
+        cookie1=self.get_cookie('test')
+        print(cookie1)
         self.render('resign.html')
 
     def post(self,*args,**kwargs):
